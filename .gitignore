@@ -1,0 +1,19 @@
+*.log
+*.iml
+*/out/
+*.class
+
+# Binaries
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.class
+out/
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+.idea/
