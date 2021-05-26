@@ -4,46 +4,42 @@ import java.util.Scanner;
 
 public class MensajeService {
 
-    public static void crearMensaje() {
+    public static void crearMensaje(Usuario usuario) {
 
         Scanner scanner= new Scanner(System.in);
-        System.out.println("Escribe tu mensaje: ");
-        String mensaje = scanner.nextLine();
+        System.out.println("Escribe tu mensaje, máx 280 caracteres ");
+        String elMensaje = scanner.nextLine();
 
-        System.out.println("Tu nombre: ");
-        String nombre = scanner.nextLine();
-
-        Mensaje registro = new Mensaje();
-        registro.setMensaje(mensaje);
-        registro.setAutorMensaje(nombre);
-
-        MensajesDAO.createMensajeBD(registro);
+        Mensaje mensaje = new Mensaje(elMensaje, usuario.getIdUsuario());
+        MensajesDAO.createMensajeBD(mensaje);
     }
 
     public static void listarMensajes() {
         MensajesDAO.listarMensajesDB();
     }
 
-    public static void editarMensaje(){
+    public static void editarMensaje(Usuario usuario){
         Scanner scanner = new Scanner(System.in);
-        Mensaje actualizacion = new Mensaje();
 
-        System.out.println("Ingresa tu nevo mensaje: ");
-        actualizacion.setMensaje(scanner.nextLine());
+        System.out.println("Ingresa tu nuevo mensaje: ");
+        String newMensaje = scanner.nextLine();
 
         System.out.println("Ingresa ID de mensaje que deseas editar: ");
-        actualizacion.setIdMensaje(scanner.nextInt());
+        int idMensaje = scanner.nextInt();
+
+        Mensaje actualizacion = new Mensaje(newMensaje, idMensaje ,usuario.getIdUsuario());
 
         MensajesDAO.updateMensajeDB(actualizacion);
     }
 
-    public static void borrarMensaje() {
+    public static void borrarMensaje(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingresa ID de mensaje que deseas borrar: ");
         int idMensaje = scanner.nextInt();
 
-        MensajesDAO.deleteMensajeDB(idMensaje);
+        Mensaje mensaje = new Mensaje(idMensaje,usuario.getIdUsuario());
+        MensajesDAO.deleteMensajeDB(mensaje);
     }
 
 }

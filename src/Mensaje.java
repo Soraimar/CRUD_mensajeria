@@ -6,9 +6,14 @@ public class Mensaje {
 
     private int idMensaje;
     private String mensaje;
+    private int idUsuario;
     private String autorMensaje;
     private Timestamp fechaMensaje;
     private Timestamp fechaUltimaActualizacion;
+
+    public Mensaje() {
+
+    }
 
     public Mensaje(String mensaje, String autorMensaje, Timestamp fechaMensaje, Timestamp fechaUltimaActualizacion) {
         this.mensaje = mensaje;
@@ -17,15 +22,22 @@ public class Mensaje {
         this.fechaUltimaActualizacion = fechaUltimaActualizacion;
     }
 
-    public Mensaje(String mensaje, String autorMensaje ){
+    public Mensaje(String mensaje, int idUsuario ){
         this.mensaje= mensaje;
-        this.autorMensaje= autorMensaje;
+        this.idUsuario= idUsuario;
 
     }
 
+    public Mensaje(int idMensaje, int idUsuario ){
+        this.idMensaje= idMensaje;
+        this.idUsuario= idUsuario;
 
-    public Mensaje() {
+    }
 
+    public Mensaje(String newMensaje, int idMensaje, int idUsuario) {
+        this.mensaje= newMensaje;
+        this.idMensaje= idMensaje;
+        this.idUsuario= idUsuario;
     }
 
     public int getIdMensaje() {
@@ -42,6 +54,14 @@ public class Mensaje {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getAutorMensaje() {
