@@ -1,4 +1,4 @@
-package src;
+package com;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +10,11 @@ public class UsuarioDAO {
     public static void crearUsuarioDB(Usuario usuario) {
         ConnectionDB connectionDB = new ConnectionDB();
 
+        if (existeCorreoAsociado(usuario.getCorreo())){
+            usuario.setMensaje("Correo especificado cuenta con usuario");
+            return;
+        }
+
         try(Connection connection = connectionDB.get_connection()) {
             try {
                 String query = "INSERT INTO mensajeria.usuarios (correo, clave, nombre_completo) VALUES (?, ?, ?)";
@@ -18,12 +23,13 @@ public class UsuarioDAO {
                 preparedStatement.setString(2, usuario.getClave());
                 preparedStatement.setString(3, usuario.getNombreCompleto());
                 preparedStatement.executeUpdate();
-                System.out.println("Usuario Creado, ahora puedes iniciar sesión");
+                usuario.setMensaje("Usuario Creado.");
             } catch (SQLException e) {
-                System.out.println("No se pudo crear el usuario");
+                usuario.setMensaje("No se pudo crear el usuario.");
                 e.printStackTrace();
             }
         }catch (SQLException ex){
+            usuario.setMensaje("Ha ocurrido un error");
             ex.printStackTrace();
         }
     }
@@ -101,5 +107,28 @@ public class UsuarioDAO {
         }catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public static boolean existeCorreoAsociado(String correo){
+        ConnectionDB connectionDB = new ConnectionDB();
+        int resultado = 0;
+
+        try(Connection connection = connectionDB.get_connection()){
+            try {
+                String query= "select count(*) as correo from mensajeria.usuarios where correo = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, correo);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()){
+                    resultado = resultSet.getInt("correo");
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return resultado != 0;
     }
 }

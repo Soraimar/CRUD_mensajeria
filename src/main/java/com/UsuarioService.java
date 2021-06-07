@@ -1,4 +1,4 @@
-package src;
+package com;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -6,21 +6,12 @@ import java.util.Scanner;
 
 public class UsuarioService {
 
-    public static void crearUsuario(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Indica tu nombre completo ");
-        String nombreCompleto = scanner.nextLine();
-        System.out.println("Indica tu correo ");
-        String correo = scanner.nextLine();
-        System.out.println("Indica tu clave ");
-        String clave = scanner.nextLine();
-        clave = cifrarMD5(clave);
-
-        Usuario registro = new Usuario(correo, clave, nombreCompleto);
-        UsuarioDAO.crearUsuarioDB(registro);
+    public static void crearUsuario(Usuario usuario){
+        usuario.setClave(cifrarClave(usuario.getClave()));
+        UsuarioDAO.crearUsuarioDB(usuario);
     }
 
-    public static String cifrarMD5(String clave){
+    public static String cifrarClave(String clave){
         return DigestUtils.md5Hex(clave);
     }
 
@@ -30,7 +21,7 @@ public class UsuarioService {
         String correo = scanner.nextLine();
         System.out.println("Indicar tu clave ");
         String clave = scanner.nextLine();
-        clave = cifrarMD5(clave);
+        clave = cifrarClave(clave);
         Usuario login = new Usuario(correo,clave);
         Usuario resultado = UsuarioDAO.iniciarSesionDB(login);
         return resultado;
@@ -49,7 +40,7 @@ public class UsuarioService {
         String correo = scanner.nextLine();
         System.out.println("Indica tu clave");
         String clave = scanner.nextLine();
-        clave = cifrarMD5(clave);
+        clave = cifrarClave(clave);
 
         Usuario registro = new Usuario(usuario.getIdUsuario(), correo, clave, nombre_completo);
         UsuarioDAO.editarUsuarioDB(registro);

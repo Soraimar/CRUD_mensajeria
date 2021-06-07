@@ -1,10 +1,11 @@
-package src;
+package com;
 
 public class Usuario {
     private int idUsuario;
     private String correo;
     private String clave;
     private String nombreCompleto;
+    private String mensaje;
 
     public Usuario(){
 
@@ -72,5 +73,13 @@ public class Usuario {
 
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 }
