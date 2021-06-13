@@ -1,45 +1,48 @@
 package com;
 
-public class Usuario {
+public class UsuarioDTO {
     private int idUsuario;
+    private String userName;
     private String correo;
-    private String clave;
+    private String password;
     private String nombreCompleto;
     private String mensaje;
+    private String token;
+    private boolean login;
 
-    public Usuario(){
+    public UsuarioDTO(){
 
     }
 
-    public Usuario(String correo, String clave, String nombreCompleto) {
+    public UsuarioDTO(String correo, String password, String nombreCompleto) {
         this.correo = correo;
-        this.clave = clave;
+        this.password = password;
         this.nombreCompleto = nombreCompleto;
     }
 
     //constructor para borrar usuario
-    public Usuario(int idUsuario) {
+    public UsuarioDTO(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 
     //constructor para traer datos de inicio de sesión
-    public Usuario(int idUsuario, String correo, String nombreCompleto) {
+    public UsuarioDTO(int idUsuario, String correo, String nombreCompleto) {
         this.idUsuario = idUsuario;
         this.correo = correo;
         this.nombreCompleto = nombreCompleto;
     }
 
     //constructor para iniciar sesión
-    public Usuario(String correo, String clave) {
+    public UsuarioDTO(String correo, String password) {
         this.correo = correo;
-        this.clave = clave;
+        this.password = password;
     }
 
     //constructor para crear, editar usuario
-    public Usuario(int idUsuario, String correo, String clave, String nombreCompleto) {
+    public UsuarioDTO(int idUsuario, String correo, String password, String nombreCompleto) {
         this.idUsuario = idUsuario;
         this.correo = correo;
-        this.clave = clave;
+        this.password = password;
         this.nombreCompleto = nombreCompleto;
     }
 
@@ -51,6 +54,14 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getCorreo() {
         return correo;
     }
@@ -59,12 +70,12 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public String getClave() {
-        return clave;
+    public String getPassword() {
+        return password;
     }
 
-    public void setClave(String clave) {
-        this.clave = clave;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNombreCompleto() {
@@ -81,5 +92,21 @@ public class Usuario {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public boolean isLogin() {
+        return login;
+    }
+
+    public void setLogin(boolean login) {
+        this.login = login;
     }
 }

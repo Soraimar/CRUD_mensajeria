@@ -2,7 +2,7 @@ package com;
 
 import java.sql.Timestamp;
 
-public class Mensaje {
+public class MensajeDTO {
 
     private int idMensaje;
     private String mensaje;
@@ -11,30 +11,30 @@ public class Mensaje {
     private Timestamp fechaMensaje;
     private Timestamp fechaUltimaActualizacion;
 
-    public Mensaje() {
+    public MensajeDTO() {
 
     }
 
-    public Mensaje(String mensaje, String autorMensaje, Timestamp fechaMensaje, Timestamp fechaUltimaActualizacion) {
+    public MensajeDTO(String mensaje, String autorMensaje, Timestamp fechaMensaje, Timestamp fechaUltimaActualizacion) {
         this.mensaje = mensaje;
         this.autorMensaje = autorMensaje;
         this.fechaMensaje = fechaMensaje;
         this.fechaUltimaActualizacion = fechaUltimaActualizacion;
     }
 
-    public Mensaje(String mensaje, int idUsuario ){
+    public MensajeDTO(String mensaje, int idUsuario ){
         this.mensaje= mensaje;
         this.idUsuario= idUsuario;
 
     }
 
-    public Mensaje(int idMensaje, int idUsuario ){
+    public MensajeDTO(int idMensaje, int idUsuario ){
         this.idMensaje= idMensaje;
         this.idUsuario= idUsuario;
 
     }
 
-    public Mensaje(String newMensaje, int idMensaje, int idUsuario) {
+    public MensajeDTO(String newMensaje, int idMensaje, int idUsuario) {
         this.mensaje= newMensaje;
         this.idMensaje= idMensaje;
         this.idUsuario= idUsuario;
