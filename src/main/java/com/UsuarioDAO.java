@@ -48,18 +48,19 @@ public class UsuarioDAO {
                 Usuario login = new Usuario();
 
                 if (resultSet.next()) {
-                    System.out.println("Login correcto!");
+                    usuario.setMensaje("Login correcto!");
                     login.setIdUsuario(resultSet.getInt("id_usuario"));
                     login.setCorreo(resultSet.getString("correo"));
                     login.setNombreCompleto(resultSet.getString("nombre_completo"));
                 } else {
-                    System.out.println("Login failed");
+                    usuario.setMensaje("Login failed");
                 }
                 return login;
             }catch (SQLException e){
-                System.out.println("No se pudo autenticar con el servidor");
+                usuario.setMensaje("No se pudo autenticar con el servidor");
             }
         }catch (SQLException ex){
+            usuario.setMensaje("Ocurrio un error");
             ex.printStackTrace();
         }
         //si no se logra iniciar sesión devolvemos un objeto vacío

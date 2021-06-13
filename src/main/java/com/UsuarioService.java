@@ -12,19 +12,12 @@ public class UsuarioService {
     }
 
     public static String cifrarClave(String clave){
-        return DigestUtils.md5Hex(clave);
+        return DigestUtils.md5Hex(clave);  // no se recomienda, se debe usar modernos como Hash basada en el cifrado Blowfish (BCrypt)
     }
 
-    public static Usuario iniciarSesion() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Indica tu correo ");
-        String correo = scanner.nextLine();
-        System.out.println("Indicar tu clave ");
-        String clave = scanner.nextLine();
-        clave = cifrarClave(clave);
-        Usuario login = new Usuario(correo,clave);
-        Usuario resultado = UsuarioDAO.iniciarSesionDB(login);
-        return resultado;
+    public static void iniciarSesion(Usuario usuario) {
+        usuario.setClave(cifrarClave(usuario.getClave()));
+        UsuarioDAO.iniciarSesionDB(usuario);
     }
 
     public static void listarUsuarios() {
