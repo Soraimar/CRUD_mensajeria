@@ -6,25 +6,25 @@ import java.util.Scanner;
 
 public class UsuarioService {
 
-    public static void crearUsuario(Usuario usuario){
-        usuario.setClave(cifrarClave(usuario.getClave()));
-        UsuarioDAO.crearUsuarioDB(usuario);
+    public static void crearUsuario(UsuarioDTO usuarioDTO){
+        usuarioDTO.setPassword(cifrarClave(usuarioDTO.getPassword()));
+        UsuarioDAO.crearUsuarioDB(usuarioDTO);
     }
 
     public static String cifrarClave(String clave){
         return DigestUtils.md5Hex(clave);  // no se recomienda, se debe usar modernos como Hash basada en el cifrado Blowfish (BCrypt)
     }
 
-    public static void iniciarSesion(Usuario usuario) {
-        usuario.setClave(cifrarClave(usuario.getClave()));
-        UsuarioDAO.iniciarSesionDB(usuario);
+    public static void iniciarSesion(UsuarioDTO usuarioDTO) {
+        usuarioDTO.setPassword(cifrarClave(usuarioDTO.getPassword()));
+        UsuarioDAO.iniciarSesionDB(usuarioDTO);
     }
 
     public static void listarUsuarios() {
         UsuarioDAO.leerUsuariosDB();
     }
 
-    public static void editarUsuario(Usuario usuario) {
+    public static void editarUsuario(UsuarioDTO usuarioDTO) {
         //instanciamos la clase scanner para leer datos
         Scanner scanner = new Scanner(System.in);
         System.out.println("Indica tu nombre completo");
@@ -33,9 +33,9 @@ public class UsuarioService {
         String correo = scanner.nextLine();
         System.out.println("Indica tu clave");
         String clave = scanner.nextLine();
-        clave = cifrarClave(clave);
+        clave = cifrarClave(clave); // debo cambiar cuando se active este endpoint
 
-        Usuario registro = new Usuario(usuario.getIdUsuario(), correo, clave, nombre_completo);
+        UsuarioDTO registro = new UsuarioDTO(usuarioDTO.getIdUsuario(), correo, clave, nombre_completo);
         UsuarioDAO.editarUsuarioDB(registro);
     }
 }

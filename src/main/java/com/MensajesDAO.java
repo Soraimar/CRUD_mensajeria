@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class MensajesDAO {
 
-    public static void createMensajeBD(Mensaje mensaje){
+    public static void createMensajeBD(MensajeDTO mensajeDTO){
         ConnectionDB connectionDB = new ConnectionDB();
         PreparedStatement preparedStatement;
         String query;
@@ -16,15 +16,15 @@ public class MensajesDAO {
             try{
                 query = "insert into mensajes (mensaje, id_usuario) values(?,?)";
                 preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, mensaje.getMensaje());
-                preparedStatement.setInt(2, mensaje.getIdUsuario());
+                preparedStatement.setString(1, mensajeDTO.getMensaje());
+                preparedStatement.setInt(2, mensajeDTO.getIdUsuario());
                 preparedStatement.executeUpdate();
-                System.out.println("Mensaje creado. ");
+                System.out.println("MensajeDTO creado. ");
             }catch (SQLException ex){
                 ex.printStackTrace();
             }
         }catch(SQLException e){
-            System.out.println("No pudo crearesultSete el mensaje.");
+            System.out.println("No pudo crearesultSete el mensajeDTO.");
             e.printStackTrace();
         }
     }
@@ -56,26 +56,26 @@ public class MensajesDAO {
 
     }
 
-    public static void updateMensajeDB(Mensaje mensaje) {
+    public static void updateMensajeDB(MensajeDTO mensajeDTO) {
         ConnectionDB connectionDB = new ConnectionDB();
         PreparedStatement preparedStatement;
 
         try(Connection connection= connectionDB.get_connection()){
              try{
-                if (!esElAutorDelMensaje(mensaje.getIdMensaje(), mensaje.getIdUsuario())){
+                if (!esElAutorDelMensaje(mensajeDTO.getIdMensaje(), mensajeDTO.getIdUsuario())){
                     return;
                 }
 
                 String query = "update mensajeria.mensajes set mensaje = ? where id_mensaje = ? and id_usuario = ?";
                 preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, mensaje.getMensaje());
-                preparedStatement.setInt(2, mensaje.getIdMensaje());
-                preparedStatement.setInt(3,mensaje.getIdUsuario());
+                preparedStatement.setString(1, mensajeDTO.getMensaje());
+                preparedStatement.setInt(2, mensajeDTO.getIdMensaje());
+                preparedStatement.setInt(3, mensajeDTO.getIdUsuario());
                 preparedStatement.executeUpdate();
-                System.out.println("Mensaje Actualizado.");
+                System.out.println("MensajeDTO Actualizado.");
 
              }catch (SQLException ex){
-                 System.out.println("ID de mensaje no existe o no es el autor.");
+                 System.out.println("ID de mensajeDTO no existe o no es el autor.");
              }
         }catch (SQLException e){
             e.printStackTrace();
@@ -108,29 +108,29 @@ public class MensajesDAO {
         return b;
     }
 
-    public static void deleteMensajeDB(Mensaje mensaje) {
+    public static void deleteMensajeDB(MensajeDTO mensajeDTO) {
 
         ConnectionDB connectionDB = new ConnectionDB();
         PreparedStatement preparedStatement;
 
         try(Connection connection= connectionDB.get_connection()){
             try {
-                if (!esElAutorDelMensaje(mensaje.getIdMensaje(), mensaje.getIdUsuario())){
+                if (!esElAutorDelMensaje(mensajeDTO.getIdMensaje(), mensajeDTO.getIdUsuario())){
                     return;
                 }
                 String query = "delete from mensajeria.mensajes where id_mensaje = ? and id_usuario = ?";
                 preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1,mensaje.getIdMensaje());
-                preparedStatement.setInt(2,mensaje.getIdUsuario());
+                preparedStatement.setInt(1, mensajeDTO.getIdMensaje());
+                preparedStatement.setInt(2, mensajeDTO.getIdUsuario());
                 preparedStatement.executeUpdate();
-                System.out.println("Mensaje con ID "+ mensaje.getIdMensaje() + " fue eliminado.");
+                System.out.println("MensajeDTO con ID "+ mensajeDTO.getIdMensaje() + " fue eliminado.");
 
             }catch (SQLException ex){
-                System.out.println("\n No se pudo eliminar mensaje. \n");
+                System.out.println("\n No se pudo eliminar mensajeDTO. \n");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("No se pudo eliminar mensaje.");
+            System.out.println("No se pudo eliminar mensajeDTO.");
         }
 
     }

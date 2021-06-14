@@ -4,21 +4,21 @@ import java.util.Scanner;
 
 public class MensajeService {
 
-    public static void crearMensaje(Usuario usuario) {
+    public static void crearMensaje(UsuarioDTO usuarioDTO) {
 
         Scanner scanner= new Scanner(System.in);
-        System.out.println("Escribe tu mensaje, máx 280 caracteres ");
+        System.out.println("Escribe tu mensajeDTO, máx 280 caracteres ");
         String elMensaje = scanner.nextLine();
 
-        Mensaje mensaje = new Mensaje(elMensaje, usuario.getIdUsuario());
-        MensajesDAO.createMensajeBD(mensaje);
+        MensajeDTO mensajeDTO = new MensajeDTO(elMensaje, usuarioDTO.getIdUsuario());
+        MensajesDAO.createMensajeBD(mensajeDTO);
     }
 
     public static void listarMensajes() {
         MensajesDAO.listarMensajesDB();
     }
 
-    public static void editarMensaje(Usuario usuario){
+    public static void editarMensaje(UsuarioDTO usuarioDTO){
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingresa tu nuevo mensaje: ");
@@ -27,19 +27,19 @@ public class MensajeService {
         System.out.println("Ingresa ID de mensaje que deseas editar: ");
         int idMensaje = scanner.nextInt();
 
-        Mensaje actualizacion = new Mensaje(newMensaje, idMensaje ,usuario.getIdUsuario());
+        MensajeDTO actualizacion = new MensajeDTO(newMensaje, idMensaje , usuarioDTO.getIdUsuario());
 
         MensajesDAO.updateMensajeDB(actualizacion);
     }
 
-    public static void borrarMensaje(Usuario usuario) {
+    public static void borrarMensaje(UsuarioDTO usuarioDTO) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingresa ID de mensaje que deseas borrar: ");
+        System.out.println("Ingresa ID de mensajeDTO que deseas borrar: ");
         int idMensaje = scanner.nextInt();
 
-        Mensaje mensaje = new Mensaje(idMensaje,usuario.getIdUsuario());
-        MensajesDAO.deleteMensajeDB(mensaje);
+        MensajeDTO mensajeDTO = new MensajeDTO(idMensaje, usuarioDTO.getIdUsuario());
+        MensajesDAO.deleteMensajeDB(mensajeDTO);
     }
 
 }

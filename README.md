@@ -4,7 +4,28 @@ CRUD de mensajeria ejercicio del curso de Java SE Persistencia de datos, en este
 una base de datos MySql en Docker.
 
 El proyecto cuenta con las 4 operaciones básicas:
-* Crear mensaje (Insert) 
+* Crear mensajeDTO (Insert) 
 * Leer mensajes (Select)
-* Actualizar mensaje (Update)
+* Actualizar mensajeDTO (Update)
 * Eliminar Mensaje (Delete)
+
+---
+## Incriptado de password con:
+* **BCryptPasswordEncoder**
+* Anteriormente con **md5Hex**
+---
+## Ejemplo de requests segun su enpoint:
+
+###Crear Usuario:
+Enpoint: localhost:8080/usuarioDTO
+
+<code>
+{
+"userName" : "sbernal",
+"correo" : "sbernal@gmail.com",
+"nombreCompleto" : "soraimar",
+"password" : "123"
+}
+</code>
+
+

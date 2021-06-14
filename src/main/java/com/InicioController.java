@@ -1,9 +1,10 @@
 package com;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,35 +12,55 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class InicioController {
 
-    @PostMapping(value = "/usuario", consumes = "application/json", produces = "application/json" )
-    public String registrarUsuario(@RequestBody Usuario usuario, HttpServletResponse response) {
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @PostMapping(value = "/usuario")
+    public String registrarUsuario(@RequestBody UsuarioDTO usuario, HttpServletResponse response) {
+        //usuario.setPassword(bCryptPasswordEncoder().encode(usuario.getPassword()));
         UsuarioService.crearUsuario(usuario);
         return usuario.getMensaje();
     }
 
-    //debo consultar si lo comentado es necesario ojo funciona sin eso
-    @PostMapping(value = "/users") //,consumes = "application/json", produces = "application/json")
-    public String login(@RequestBody Usuario usuario, HttpServletResponse response){
+    @PostMapping(value = "/login")
+    public UsuarioDTO login(@RequestBody UsuarioDTO usuario, HttpServletResponse response){
         UsuarioService.iniciarSesion(usuario);
-        return usuario.getMensaje(); //esto debe tener un token
+
+        if (usuario.isLogin()){
+            String token = getJWTToken(usuario.getUserName());
+            usuario.setToken(token);
+        }
+        return usuario;
     }
 
-    @PostMapping(value = "/mensaje")
-    public String crearMensaje(@RequestBody Usuario usuario, HttpServletResponse response){
-        MensajeService.crearMensaje(usuario);
-        return usuario.getMensaje(); //esto debe confirmar el token
+    private String getJWTToken(String username) {
+        String secretKey = "mySecretKey";
+
+        String token = Jwts
+                .builder()
+                .setId("softtekJWT")
+                .setSubject(username)
+                .signWith(SignatureAlgorithm.HS512,
+                        secretKey.getBytes()).compact();
+
+        return "Bearer " + token;
     }
 
-    @GetMapping(value = "/mensajes" , consumes = "application/json" ,produces = "application/json")
-    public void consultarMensajes(HttpServletResponse response ){
-        MensajeService.listarMensajes();
-        //falta crear objeto de respuesta y que se valide el token
-    }
-
-
-
-
-//    public static void menuSesion(Usuario usuario){
+//debo consultar si lo comentado es necesario ojo funciona sin eso
+//    @PostMapping(value = "/mensaje") //,consumes = "application/json", produces = "application/json")
+//    public String crearMensaje(@RequestBody UsuarioDTO usuario, HttpServletResponse response){
+//        MensajeService.crearMensaje(usuario);
+//        return usuario.getMensaje(); //esto debe confirmar el token
+//    }
+//
+//    @GetMapping(value = "/mensajes" , consumes = "application/json" ,produces = "application/json")
+//    public void consultarMensajes(HttpServletResponse response ){
+//        MensajeService.listarMensajes();
+//        //falta crear objeto de respuesta y que se valide el token
+//    }
+//    public static void menuSesion(UsuarioDTO usuario){
 //        Scanner scanner = new Scanner(System.in);
 //        int option = 0;
 //        do {
