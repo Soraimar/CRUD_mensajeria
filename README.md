@@ -17,7 +17,7 @@ El proyecto cuenta con las 4 operaciones básicas:
 ## Ejemplo de requests segun su enpoint:
 
 Crear Usuario:
-Enpoint --> localhost:8080/usuarioDTO
+Enpoint --> localhost:8080/usuario
 
 ```json
 {
