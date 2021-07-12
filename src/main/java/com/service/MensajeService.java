@@ -1,4 +1,8 @@
-package com;
+package com.service;
+
+import com.dao.MensajesDAO;
+import com.dto.MensajeDTO;
+import com.dto.UsuarioDTO;
 
 import java.util.Scanner;
 

@@ -1,5 +1,7 @@
-package com;
+package com.service;
 
+import com.dao.UsuarioDAO;
+import com.dto.UsuarioDTO;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Scanner;
@@ -35,7 +37,7 @@ public class UsuarioService {
         String clave = scanner.nextLine();
         clave = cifrarClave(clave); // debo cambiar cuando se active este endpoint
 
-        UsuarioDTO registro = new UsuarioDTO(usuarioDTO.getIdUsuario(), correo, clave, nombre_completo);
-        UsuarioDAO.editarUsuarioDB(registro);
+        //UsuarioDTO registro = new UsuarioDTO(usuarioDTO.getIdUsuario(), correo, clave, nombre_completo);
+        //UsuarioDAO.editarUsuarioDB(registro);
     }
 }

@@ -1,4 +1,6 @@
-package com;
+package com.dao;
+
+import com.dto.UsuarioDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

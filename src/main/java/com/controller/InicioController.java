@@ -1,54 +1,78 @@
-package com;
+package com.controller;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.service.UsuarioService;
+import com.dto.UsuarioDTO;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletResponse;
+
+import java.nio.charset.StandardCharsets;
 
 // habilitar esta clase como un controlador REST y que pueda interceptar peticiones al servidor
 @RestController
 public class InicioController {
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @PostMapping(value = "/usuario")
-    public String registrarUsuario(@RequestBody UsuarioDTO usuario, HttpServletResponse response) {
-        //usuario.setPassword(bCryptPasswordEncoder().encode(usuario.getPassword()));
-        UsuarioService.crearUsuario(usuario);
-        return usuario.getMensaje();
+    public String registrarUsuario(@RequestHeader("Authorization") String authorization,
+                                   @RequestBody UsuarioDTO usuario, HttpServletResponse response) {
+
+        if (validateJWTToken(authorization)) {
+            UsuarioService.crearUsuario(usuario);
+            return usuario.getMensaje();
+        } else {
+            return "token invalido";
+        }
     }
 
     @PostMapping(value = "/login")
-    public UsuarioDTO login(@RequestBody UsuarioDTO usuario, HttpServletResponse response){
+    public String login(@RequestBody UsuarioDTO usuario, HttpServletResponse response){
         UsuarioService.iniciarSesion(usuario);
 
         if (usuario.isLogin()){
-            String token = getJWTToken(usuario.getUserName());
+            String token = createJWTToken(usuario.getUserName());
             usuario.setToken(token);
+            return usuario.getMensaje();
         }
-        return usuario;
+        return usuario.getMensaje();
     }
 
-    private String getJWTToken(String username) {
-        String secretKey = "mySecretKey";
+    private String createJWTToken(String username) {
+        final String SECRET_KEY = "mySecretKey";
+        //SecretKey privateKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        SecretKey privateKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-        String token = Jwts
-                .builder()
-                .setId("softtekJWT")
+        return Jwts.builder()
                 .setSubject(username)
-                .signWith(SignatureAlgorithm.HS512,
-                        secretKey.getBytes()).compact();
+                .signWith(privateKey)
+                .compact();
 
-        return "Bearer " + token;
     }
 
-//debo consultar si lo comentado es necesario ojo funciona sin eso
+    private boolean validateJWTToken(String authorization) {
+
+        final String SECRET_KEY = "mySecretKey";
+        //SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        SecretKey privateKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+        Jws<Claims> jws;
+        try {
+            jws = Jwts.parserBuilder()
+                    .setSigningKey(privateKey)
+                    .build()
+                    .parseClaimsJws(authorization);
+
+            return true;
+
+        }catch (JwtException ex){
+            System.out.println(ex);
+            return false;
+        }
+    }
+
 //    @PostMapping(value = "/mensaje") //,consumes = "application/json", produces = "application/json")
 //    public String crearMensaje(@RequestBody UsuarioDTO usuario, HttpServletResponse response){
 //        MensajeService.crearMensaje(usuario);

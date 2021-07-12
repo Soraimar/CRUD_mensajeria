@@ -1,4 +1,4 @@
-package com;
+package com.dto;
 
 public class UsuarioDTO {
     private int idUsuario;
@@ -14,36 +14,15 @@ public class UsuarioDTO {
 
     }
 
-    public UsuarioDTO(String correo, String password, String nombreCompleto) {
-        this.correo = correo;
-        this.password = password;
-        this.nombreCompleto = nombreCompleto;
-    }
-
-    //constructor para borrar usuario
-    public UsuarioDTO(int idUsuario) {
+    public UsuarioDTO(int idUsuario, String nombreCompleto, String correo, String userName, String password, String mensaje, String token, boolean login) {
         this.idUsuario = idUsuario;
-    }
-
-    //constructor para traer datos de inicio de sesión
-    public UsuarioDTO(int idUsuario, String correo, String nombreCompleto) {
-        this.idUsuario = idUsuario;
-        this.correo = correo;
         this.nombreCompleto = nombreCompleto;
-    }
-
-    //constructor para iniciar sesión
-    public UsuarioDTO(String correo, String password) {
         this.correo = correo;
+        this.userName = userName;
         this.password = password;
-    }
-
-    //constructor para crear, editar usuario
-    public UsuarioDTO(int idUsuario, String correo, String password, String nombreCompleto) {
-        this.idUsuario = idUsuario;
-        this.correo = correo;
-        this.password = password;
-        this.nombreCompleto = nombreCompleto;
+        this.mensaje = mensaje;
+        this.token = token;
+        this.login = login;
     }
 
     public int getIdUsuario() {
