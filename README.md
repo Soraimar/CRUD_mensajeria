@@ -19,13 +19,13 @@ El proyecto cuenta con las 4 operaciones básicas:
 ###Crear Usuario:
 Enpoint: localhost:8080/usuarioDTO
 
-<code>
+```json
 {
-"userName" : "sbernal",
-"correo" : "sbernal@gmail.com",
-"nombreCompleto" : "soraimar",
-"password" : "123"
+    "userName" : "sbernal",
+    "correo" : "sbernal@gmail.com",
+    "nombreCompleto" : "soraimar",
+    "password" : "123"
 }
-</code>
+```
 
 
