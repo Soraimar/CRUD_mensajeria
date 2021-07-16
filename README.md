@@ -28,4 +28,12 @@ Enpoint --> localhost:8080/usuario
 }
 ```
 
+Login:
+Enpoint --> localhost:8080/login
+```json
+{
+"userName" : "sbernal",
+"password": "1234"
+}
+```
 
